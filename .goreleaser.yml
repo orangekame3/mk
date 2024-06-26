@@ -1,5 +1,5 @@
 # .goreleaser.yml
-
+version: 2
 # Before section
 before:
   hooks:
@@ -7,38 +7,33 @@ before:
     - go mod tidy
     # Optionally, run go generate if needed
     - go generate ./...
-
 # Builds section
 builds:
   - env:
-      CGO_ENABLED: 0
+      - CGO_ENABLED=0
     goos:
       - linux
       - windows
       - darwin
     # Add additional build configurations as needed
-
 # Archives section
 archives:
-  - format: tar.gz
+  - id: tar_gz
+    format: tar.gz
     # Customize archive name based on OS and Arch
     name_template: >-
       {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
-
-  - format: zip
+  - id: zip
+    format: zip
     # Format override for Windows
-    goos: windows
     name_template: >-
       {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
-
 # Checksum section
 checksum:
   name_template: "checksums.txt"
-
 # Snapshot section
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
-
 # Changelog section
 changelog:
   sort: asc
@@ -46,10 +41,10 @@ changelog:
     exclude:
       - "^docs:"
       - "^test:"
-
 # Brews section (if applicable)
 brews:
-  - tap:
+  - 
+    repository:
       owner: orangekame3
       name: homebrew-tap
       token: "{{ .Env.TAP_GITHUB_TOKEN }}"
