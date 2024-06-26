@@ -46,7 +46,6 @@ brews:
   - 
     ids:
       - tar_gz
-      - zip
     repository:
       owner: orangekame3
       name: homebrew-tap
