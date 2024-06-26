@@ -44,15 +44,3 @@ brews:
       owner: orangekame3
       name: homebrew-tap
       token: "{{ .Env.TAP_GITHUB_TOKEN }}"
-
-winget:
-  - name: mk
-    publisher: orangekame3
-    license: "mit"
-    copyright: Takafumi Miyanaga
-    short_description: mk is a CLI tool for interactive task runner with Makefile.
-    path: manifests/orangekame3/mk
-    repository:
-      owner: orangekame3
-      name: winget-pkgs
-      token: "{{ .Env.TAP_GITHUB_TOKEN }}"
