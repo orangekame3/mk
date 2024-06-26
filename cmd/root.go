@@ -1,6 +1,6 @@
 // Package cmd is a root command.
 /*
-Copyright © 2023 Takafumi Miyanaga <miya.org.0309@gmail.com>
+Copyright © 2024 Takafumi Miyanaga <orangekame3.dev@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,46 +23,31 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"fmt"
-	"os"
+	"log"
 
+	tea "github.com/charmbracelet/bubbletea"
 	"github.com/spf13/cobra"
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "cobra-template",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
+	Use:   "mk",
+	Short: "mk is a CLI tool for executing make commands interactively.",
+	Long:  `mk is a CLI tool for executing make commands interactively.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("rootCmd called")
+		commands, err := parseMakefile("Makefile")
+		if err != nil {
+			log.Fatalf("Failed to parse Makefile: %v", err)
+		}
+
+		p := tea.NewProgram(initialModel(commands))
+		if _, err := p.Run(); err != nil {
+			log.Fatalf("Error: %v", err)
+		}
 	},
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
-	}
-}
-
+// init initializes the root command.
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra-template.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

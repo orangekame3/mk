@@ -1,3 +1,4 @@
+// Package cmd is a root command.
 /*
 Copyright © 2024 Takafumi Miyanaga <orangekame3.dev@gmail.com>
 
@@ -19,16 +20,49 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package main
+package cmd
 
 import (
-	"time"
-
-	"github.com/orangekame3/mk/cmd"
+	"bufio"
+	"os"
+	"regexp"
 )
 
-// main is the entry point of this application.
-func main() {
-	cmd.SetVersionInfo(cmd.Version, time.Now().String())
-	cmd.Execute()
+// MakeCommand represents a make command.
+type MakeCommand struct {
+	Name        string
+	Description string
+	Command     string
+}
+
+// parseMakefile parses a Makefile and returns a slice of MakeCommand.
+func parseMakefile(filename string) ([]MakeCommand, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	var commands []MakeCommand
+	scanner := bufio.NewScanner(file)
+	re := regexp.MustCompile(`^([a-zA-Z0-9_-]+):.*# (.*)$`)
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		matches := re.FindStringSubmatch(line)
+		if len(matches) == 3 {
+			cmd := MakeCommand{
+				Name:        matches[1],
+				Description: matches[2],
+				Command:     line,
+			}
+			commands = append(commands, cmd)
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, err
+	}
+
+	return commands, nil
 }
