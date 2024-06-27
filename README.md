@@ -45,11 +45,11 @@ SHELL := bash
 .PHONY: test fmt
 ## Run tests
 test:
-	go test ./...
+ go test ./...
 
 ## Format source code
 fmt:
-	go fmt ./...
+ go fmt ./...
 
 ```
 
@@ -63,10 +63,10 @@ SHELL := bash
 .PHONY: test fmt
 
 test: ## Run tests
-	go test ./...
+ go test ./...
 
 fmt: ## Format source code
-	go fmt ./...
+ go fmt ./...
 
 ```
 
