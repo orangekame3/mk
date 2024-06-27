@@ -91,7 +91,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Acknowledgements
 
-This project was inspired by [fzf-make](https://github.com/kyu08/fzf-make) by [@kyu08](https://github.com/kyu08), [make2help](https://github.com/Songmu/make2help) [@Songmu](https://github.com/Songmu/Songmu), and [glow](https://github.com/charmbracelet/glow) Thank you for the inspiration!
+This project was inspired by [fzf-make](https://github.com/kyu08/fzf-make) by [@kyu08](https://github.com/kyu08), [make2help](https://github.com/Songmu/make2help) by [@Songmu](https://github.com/Songmu/Songmu), and [glow](https://github.com/charmbracelet/glow) Thank you for the inspiration!
 
 ## Author
 
