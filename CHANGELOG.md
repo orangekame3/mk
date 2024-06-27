@@ -1,5 +1,7 @@
 # Changelog
 
+## [v0.0.7](https://github.com/orangekame3/mk/compare/v0.0.6...v0.0.7) - 2024-06-27
+
 ## [v0.0.6](https://github.com/orangekame3/mk/compare/v0.0.5...v0.0.6) - 2024-06-26
 
 ## [v0.0.5](https://github.com/orangekame3/mk/compare/v0.0.4...v0.0.5) - 2024-06-26
