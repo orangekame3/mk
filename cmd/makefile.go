@@ -26,6 +26,7 @@ import (
 	"bufio"
 	"os"
 	"regexp"
+	"strings"
 )
 
 // MakeCommand represents a make command.
@@ -45,18 +46,43 @@ func parseMakefile(filename string) ([]MakeCommand, error) {
 
 	var commands []MakeCommand
 	scanner := bufio.NewScanner(file)
-	re := regexp.MustCompile(`^([a-zA-Z0-9_-]+):.*# (.*)$`)
+
+	descPosition := os.Getenv("MK_DESC_POSITION")
+	var cmdRegexp *regexp.Regexp
+	if descPosition == "side" {
+		cmdRegexp = regexp.MustCompile(`^([a-zA-Z0-9\-_]+):.*?##\s*(.*)$`)
+	} else {
+		cmdRegexp = regexp.MustCompile(`^##\s*(.*)\n([a-zA-Z0-9\-_]+):.*$`)
+	}
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		matches := re.FindStringSubmatch(line)
-		if len(matches) == 3 {
-			cmd := MakeCommand{
-				Name:        matches[1],
-				Description: matches[2],
-				Command:     line,
+		if descPosition == "side" {
+			matches := cmdRegexp.FindStringSubmatch(line)
+			if len(matches) == 3 {
+				command := MakeCommand{
+					Name:        matches[1],
+					Description: matches[2],
+					Command:     line,
+				}
+				commands = append(commands, command)
 			}
-			commands = append(commands, cmd)
+		} else {
+			if strings.HasPrefix(line, "##") {
+				description := strings.TrimSpace(strings.TrimPrefix(line, "##"))
+				if scanner.Scan() {
+					line = scanner.Text()
+					matches := cmdRegexp.FindStringSubmatch("## " + description + "\n" + line)
+					if len(matches) == 3 {
+						command := MakeCommand{
+							Name:        matches[2],
+							Description: matches[1],
+							Command:     line,
+						}
+						commands = append(commands, command)
+					}
+				}
+			}
 		}
 	}
 

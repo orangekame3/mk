@@ -34,7 +34,7 @@ import (
 
 const (
 	height = 20
-	width  = 20
+	width  = 60
 )
 
 // item is a list item that represents a make command.

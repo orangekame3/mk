@@ -2,21 +2,28 @@ SHELL := bash
 .SHELLFLAGS := -eu -o pipefail -c
 .DEFAULT_GOAL := help
 
-.PHONY: lint fmt help
+.PHONY: lint fmt test test-side lint-side fmt-side
 
-lint: ## Lint the code
+## Lint the code
+lint:
 	@npx mega-linter-runner --flavor go
 
-fmt: ## Format the code
+lin-side: ## Lint the code exp. MK_DESC_POSITION=side
+	@npx mega-linter-runner --flavor go
+
+## Format the code
+fmt:
 	@go fmt ./...
 
-test: ## Run the tests
+fmt-side: ## Format the code exp. MK_DESC_POSITION=side
+	@go fmt ./...
+
+
+## Run the tests
+test: 
 	@go clean -testcache
 	@go test -v ./... && echo -e "\033[32mOK\033[0m" || echo -e "\033[31mERROR\033[0m";
 
-help: ## Show this help message
-	@echo "Usage: make [target]"
-	@echo ""
-	@echo "Available targets:"
-	@echo ""
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(filter-out .env,$(MAKEFILE_LIST)) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+test-side: ## Run the tests exp. MK_DESC_POSITION=side
+	@go clean -testcache
+	@go test -v ./... && echo -e "\033[32mOK\033[0m" || echo -e "\033[31mERROR\033[0m";

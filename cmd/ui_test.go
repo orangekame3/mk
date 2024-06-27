@@ -70,7 +70,7 @@ func TestRunCommand(t *testing.T) {
 			name:     "Failing Command",
 			cmdName:  "nonexistentcommand",
 			cmdArgs:  []string{"arg"},
-			expected: "", 
+			expected: "",
 		},
 	}
 

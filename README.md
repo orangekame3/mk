@@ -4,7 +4,8 @@
 
 ## Features
 
-**Interactive Interface**: Browse and select from available `make` commands using arrow keys or filter by typing.
+- **Interactive Interface**: Browse and select from available `make` commands using arrow keys or filter by typing.
+- **Documentation**: View the description of each command to understand its purpose and usage.
 
 ## Installation
 
@@ -33,6 +34,41 @@ mv mk /usr/local/bin
 ```
 
 ## Usage
+
+Prepare a Makefile with predefined commands and descriptions. Each command should be documented using a comment starting with `##` to provide a description of the command.
+
+```makefile
+SHELL := bash
+.SHELLFLAGS := -eu -o pipefail -c
+.DEFAULT_GOAL := help
+
+.PHONY: test fmt
+## Run tests
+test:
+	go test ./...
+
+## Format source code
+fmt:
+	go fmt ./...
+
+```
+
+or you can set `MK_DESC_POSITION=side` in your `.bashrc` or `.zshrc` to show the description on the right side of the command.
+
+```makefile
+SHELL := bash
+.SHELLFLAGS := -eu -o pipefail -c
+.DEFAULT_GOAL := help
+
+.PHONY: test fmt
+
+test: ## Run tests
+	go test ./...
+
+fmt: ## Format source code
+	go fmt ./...
+
+```
 
 Run `mk` in your terminal to start the interactive interface. Select a command using arrow keys or filter by typing part of the command name. Press Enter to execute the selected command.
 

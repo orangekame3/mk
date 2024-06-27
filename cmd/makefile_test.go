@@ -5,54 +5,95 @@ import (
 	"testing"
 )
 
+func createTempMakefile(content string) (string, error) {
+	file, err := os.CreateTemp("", "Makefile")
+	if err != nil {
+		return "", err
+	}
+
+	if _, err := file.WriteString(content); err != nil {
+		file.Close()
+		return "", err
+	}
+
+	if err := file.Close(); err != nil {
+		return "", err
+	}
+
+	return file.Name(), nil
+}
+
 func TestParseMakefile(t *testing.T) {
-	tests := []struct {
-		name     string
-		content  string
-		expected []MakeCommand
-	}{
-		{
-			name: "Valid Makefile",
-			content: `build: # Build the project
-test: # Run tests
-deploy: # Deploy the project`,
-			expected: []MakeCommand{
-				{Name: "build", Description: "Build the project", Command: "build: # Build the project"},
-				{Name: "test", Description: "Run tests", Command: "test: # Run tests"},
-				{Name: "deploy", Description: "Deploy the project", Command: "deploy: # Deploy the project"},
-			},
-		},
-	}
+	t.Run("side description", func(t *testing.T) {
+		os.Setenv("MK_DESC_POSITION", "side")
+		defer os.Unsetenv("MK_DESC_POSITION")
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			tmpfile, err := os.CreateTemp("", "example.Makefile")
-			if err != nil {
-				t.Fatal(err)
-			}
-			defer os.Remove(tmpfile.Name())
+		content := `build: ## Build the project
+	echo "Building the project"
+clean: ## Clean the project
+	echo "Cleaning the project"
+		`
+		filename, err := createTempMakefile(content)
+		if err != nil {
+			t.Fatalf("Failed to create temp file: %v", err)
+		}
+		defer os.Remove(filename)
 
-			if _, err := tmpfile.Write([]byte(tt.content)); err != nil {
-				t.Fatal(err)
-			}
-			if err := tmpfile.Close(); err != nil {
-				t.Fatal(err)
-			}
+		commands, err := parseMakefile(filename)
+		if err != nil {
+			t.Fatalf("parseMakefile failed: %v", err)
+		}
 
-			commands, err := parseMakefile(tmpfile.Name())
-			if err != nil {
-				t.Fatalf("Expected no error, got %v", err)
-			}
+		expected := []MakeCommand{
+			{Name: "build", Description: "Build the project", Command: "build: ## Build the project"},
+			{Name: "clean", Description: "Clean the project", Command: "clean: ## Clean the project"},
+		}
 
-			if len(commands) != len(tt.expected) {
-				t.Fatalf("Expected %d commands, got %d", len(tt.expected), len(commands))
-			}
+		if len(commands) != len(expected) {
+			t.Fatalf("Expected %d commands, got %d", len(expected), len(commands))
+		}
 
-			for i, cmd := range commands {
-				if cmd != tt.expected[i] {
-					t.Errorf("Expected %v, got %v", tt.expected[i], cmd)
-				}
+		for i, cmd := range commands {
+			if cmd.Name != expected[i].Name || cmd.Description != expected[i].Description || cmd.Command != expected[i].Command {
+				t.Errorf("Expected %v, got %v", expected[i], cmd)
 			}
-		})
-	}
+		}
+	})
+
+	t.Run("above description", func(t *testing.T) {
+		os.Unsetenv("MK_DESC_POSITION")
+
+		content := `## Build the project
+build:
+	echo "Building the project"
+## Clean the project
+clean:
+	echo "Cleaning the project"
+		`
+		filename, err := createTempMakefile(content)
+		if err != nil {
+			t.Fatalf("Failed to create temp file: %v", err)
+		}
+		defer os.Remove(filename)
+
+		commands, err := parseMakefile(filename)
+		if err != nil {
+			t.Fatalf("parseMakefile failed: %v", err)
+		}
+
+		expected := []MakeCommand{
+			{Name: "build", Description: "Build the project", Command: "build:"},
+			{Name: "clean", Description: "Clean the project", Command: "clean:"},
+		}
+
+		if len(commands) != len(expected) {
+			t.Fatalf("Expected %d commands, got %d", len(expected), len(commands))
+		}
+
+		for i, cmd := range commands {
+			if cmd.Name != expected[i].Name || cmd.Description != expected[i].Description || cmd.Command != expected[i].Command {
+				t.Errorf("Expected %v, got %v", expected[i], cmd)
+			}
+		}
+	})
 }
