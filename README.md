@@ -2,10 +2,14 @@
 
 **mk** is a command-line interface (CLI) tool designed to interactively execute `make` commands from a Makefile. It provides a user-friendly interface to select and run predefined make commands, making it easier to manage and execute build tasks.
 
+![mk](./img/demo.gif)
+
 ## Features
 
 - **Interactive Interface**: Browse and select from available `make` commands using arrow keys or filter by typing.
 - **Documentation**: View the description of each command to understand its purpose and usage.
+- **Vim like keybindings**: Use `j` and `k` to navigate, `Enter` to execute, and `q` to quit.
+- **Filtering**: Quickly search for commands by typing part of the command name. check `?` for help.
 
 ## Installation
 

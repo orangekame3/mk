@@ -2,7 +2,7 @@ SHELL := bash
 .SHELLFLAGS := -eu -o pipefail -c
 .DEFAULT_GOAL := help
 
-.PHONY: lint fmt test test-side lint-side fmt-side
+.PHONY: lint fmt test test-side lint-side fmt-side hello
 
 ## Lint the code
 lint:
@@ -27,3 +27,7 @@ test:
 test-side: ## Run the tests exp. MK_DESC_POSITION=side
 	@go clean -testcache
 	@go test -v ./... && echo -e "\033[32mOK\033[0m" || echo -e "\033[31mERROR\033[0m";
+
+## Hello World
+hello: 
+	@echo "Hello World"
