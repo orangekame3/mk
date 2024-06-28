@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.0.9](https://github.com/orangekame3/mk/compare/v0.0.8...v0.0.9) - 2024-06-28
+- [bug]:fix go.mod by @orangekame3 in https://github.com/orangekame3/mk/pull/10
+
 ## [v0.0.8](https://github.com/orangekame3/mk/compare/v0.0.7...v0.0.8) - 2024-06-27
 
 ## [v0.0.7](https://github.com/orangekame3/mk/compare/v0.0.6...v0.0.7) - 2024-06-27
