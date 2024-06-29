@@ -1,7 +1,8 @@
 # Changelog
 
 ## [v0.0.10](https://github.com/orangekame3/mk/compare/v0.0.9...v0.0.10) - 2024-06-29
-- feat: Add support for downloading Makefile from URL by @orangekame3 in https://github.com/orangekame3/mk/pull/14
+
+- feat: Add support for downloading Makefile from URL by @orangekame3 in <https://github.com/orangekame3/mk/pull/14>
 
 ## [v0.0.9](https://github.com/orangekame3/mk/compare/v0.0.8...v0.0.9) - 2024-06-28
 
