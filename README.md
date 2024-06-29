@@ -1,4 +1,4 @@
-# mk - Interactive Task Runner for Makefiles
+# mk - Interactive Task Runner for Makefile
 
 **mk** is a command-line interface (CLI) tool designed to interactively execute `make` commands from a Makefile. It provides a user-friendly interface to select and run predefined make commands, making it easier to manage and execute build tasks.
 
