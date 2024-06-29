@@ -102,8 +102,7 @@ func Execute() {
 
 // init initializes the root command.
 func init() {
-	rootCmd.Flags().StringVarP(&inputFile, "input", "i", "", "Specify an input file other than Makefile")
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.Flags().StringVarP(&inputFile, "input", "i", "", "Specify an input file other than Makefile (URL is also supported)")
 }
 
 // downloadFile downloads a file from the given URL and saves it to the specified path.

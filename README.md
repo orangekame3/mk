@@ -10,6 +10,8 @@
 - **Documentation**: View the description of each command to understand its purpose and usage.
 - **Vim like keybindings**: Use `j` and `k` to navigate, `Enter` to execute, and `q` to quit.
 - **Filtering**: Quickly search for commands by typing part of the command name. check `?` for help.
+- **Remote Makefile**: Load a Makefile from a remote URL and execute commands.
+- **Any Local Makefile**: Load a Makefile from any directory and execute commands.
 
 ## Installation
 
@@ -81,6 +83,45 @@ mk
 ```
 
 This will display a list of available commands from the Makefile. Use the arrow keys to navigate and select a command, then press `Enter` to execute it.
+
+## Options
+
+**mk** supports the following options:
+
+```bash
+
+mk is a CLI tool for executing make commands interactively.
+
+Usage:
+  mk [flags]
+
+Flags:
+  -h, --help           help for mk
+  -i, --input string   Specify an input file other than Makefile (URL is also supported)
+  -v, --version        version for mk
+```
+
+### Load Makefile from a Remote URL
+
+Use the `-i` or `--input` flag to load a Makefile from a remote URL. This allows you to execute commands from a Makefile hosted on a remote server.
+
+```bash
+mk -i https://raw.githubusercontent.com/orangekame3/mk/main/Makefile
+```
+
+> [!NOTE]
+> command executed at current directory.
+
+### Load Makefile from a Local File
+
+Use the `-i` or `--input` flag to load a Makefile from a local file. This allows you to execute commands from a Makefile located in any directory.
+
+```bash
+mk -i /path/to/Makefile
+```
+
+> [!NOTE]
+> command executed at path/to directory, and return to the original directory after the command is executed.
 
 Contact
 For questions or feedback, please contact at @orangekame3.
