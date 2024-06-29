@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.11](https://github.com/orangekame3/mk/compare/v0.0.10...v0.0.11) - 2024-06-29
+
+- feat: Add support for lazy loading images in UI by @orangekame3 in <https://github.com/orangekame3/mk/pull/16>
+
 ## [v0.0.10](https://github.com/orangekame3/mk/compare/v0.0.9...v0.0.10) - 2024-06-29
 
 - feat: Add support for downloading Makefile from URL by @orangekame3 in <https://github.com/orangekame3/mk/pull/14>
