@@ -61,14 +61,14 @@ type model struct {
 }
 
 // initialModel returns the initial model.
-func initialModel(commands []MakeCommand) model {
+func initialModel(commands []MakeCommand, dir string) model {
 	items := make([]list.Item, len(commands))
 	for i, cmd := range commands {
 		items[i] = item{title: cmd.Name, description: cmd.Description, command: cmd.Command}
 	}
 
 	l := list.New(items, list.NewDefaultDelegate(), width, height)
-	l.Title = "mk"
+	l.Title = dir
 
 	return model{list: l, commands: commands}
 }
@@ -104,35 +104,28 @@ func (m model) View() string {
 }
 
 // runCommand runs a command and returns its output.
-func runCommand(name string, args ...string) error {
+func runCommand(dir, name string, args ...string) error {
+	originalDir, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("failed to get current directory: %v", err)
+	}
+	defer func() {
+		if err := os.Chdir(originalDir); err != nil {
+			log.Printf("failed to change back to original directory: %v", err)
+		}
+	}()
+
+	// Change to the specified directory
+	if err := os.Chdir(dir); err != nil {
+		return fmt.Errorf("failed to change directory to %s: %v", dir, err)
+	}
 	cmd := exec.Command(name, args...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
-	err := cmd.Run()
+	err = cmd.Run()
 	if err != nil {
 		return fmt.Errorf("%v", err)
 	}
-
 	return nil
-}
-
-// Execute executes the interactive make command.
-func Execute() {
-	commands, err := parseMakefile("Makefile")
-	if err != nil {
-		log.Fatalf("Failed to parse Makefile: %v", err)
-	}
-
-	p := tea.NewProgram(initialModel(commands))
-	m, err := p.Run()
-	if err != nil {
-		log.Fatalf("Error: %v", err)
-	}
-
-	if m, ok := m.(model); ok && m.selected != "" {
-		if err := runCommand("make", m.selected); err != nil {
-			fmt.Fprintf(os.Stderr, "Failed to run command: %v\n", err)
-		}
-	}
 }
