@@ -61,14 +61,14 @@ type model struct {
 }
 
 // initialModel returns the initial model.
-func initialModel(commands []MakeCommand, dir string) model {
+func initialModel(commands []MakeCommand, mode string) model {
 	items := make([]list.Item, len(commands))
 	for i, cmd := range commands {
 		items[i] = item{title: cmd.Name, description: cmd.Description, command: cmd.Command}
 	}
 
 	l := list.New(items, list.NewDefaultDelegate(), width, height)
-	l.Title = dir
+	l.Title = mode
 
 	return model{list: l, commands: commands}
 }
