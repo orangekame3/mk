@@ -42,6 +42,7 @@ var rootCmd = &cobra.Command{
 	Short: "mk is a CLI tool for executing make commands interactively.",
 	Long:  `mk is a CLI tool for executing make commands interactively.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		mode := "local"
 		tempFile := ""
 		if inputFile == "" {
 			inputFile = "Makefile"
@@ -52,6 +53,7 @@ var rootCmd = &cobra.Command{
 				log.Fatalf("Failed to download Makefile: %v", err)
 			}
 			inputFile = tempFile
+			mode = "remote"
 			defer func() {
 				if err := os.Remove(tempFile); err != nil {
 					log.Printf("Failed to remove temporary file: %v", err)
@@ -64,20 +66,12 @@ var rootCmd = &cobra.Command{
 			log.Fatalf("Failed to get absolute path for %s: %v", inputFile, err)
 		}
 
-		inputFileDir := filepath.Dir(inputFile)
 		commands, err := parseMakefile(absPath)
 		if err != nil {
 			log.Fatalf("Failed to parse Makefile: %v", err)
 		}
 
-		if inputFileDir == "" {
-			inputFileDir, err = os.Getwd()
-			if err != nil {
-				log.Fatalf("Failed to get current directory: %v", err)
-			}
-		}
-
-		p := tea.NewProgram(initialModel(commands, inputFileDir))
+		p := tea.NewProgram(initialModel(commands, mode))
 		m, err := p.Run()
 		if err != nil {
 			log.Fatalf("Error: %v", err)

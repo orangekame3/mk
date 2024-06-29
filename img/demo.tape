@@ -50,14 +50,26 @@ Set Width 1500
 Set Height 1000
 Sleep 500ms
 Type "mk" Sleep 1000ms Enter
-Sleep 3000ms
+Sleep 1000ms
 Type "j"
-Sleep 300ms
+Sleep 100ms
 Type "j"
-Sleep 300ms
+Sleep 100ms
 Type "k"
-Sleep 300ms
+Sleep 100ms
 Type "j"
-Sleep 300ms
+Sleep 100ms
 Type "j" Sleep 1000ms Enter
-Sleep 3s
+Sleep 1s
+Type "mk -i https://raw.githubusercontent.com/orangekame3/mk/main/Makefile" Sleep 1000ms Enter
+Sleep 1000ms
+Type "j"
+Sleep 100ms
+Type "j"
+Sleep 100ms
+Type "k"
+Sleep 100ms
+Type "j"
+Sleep 100ms
+Type "j" Sleep 1000ms Enter
+Sleep 1s
