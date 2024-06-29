@@ -1,7 +1,8 @@
 # Changelog
 
 ## [v0.0.12](https://github.com/orangekame3/mk/compare/v0.0.11...v0.0.12) - 2024-06-29
-- update README by @orangekame3 in https://github.com/orangekame3/mk/pull/18
+
+- update README by @orangekame3 in <https://github.com/orangekame3/mk/pull/18>
 
 ## [v0.0.11](https://github.com/orangekame3/mk/compare/v0.0.10...v0.0.11) - 2024-06-29
 
