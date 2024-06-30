@@ -123,7 +123,7 @@ mk -f https://raw.githubusercontent.com/orangekame3/mk/main/Makefile
 Use the `-f` or `--file` flag to load a Makefile from a local file. This allows you to execute commands from a Makefile located in any directory.
 
 ```bash
-mk -i /path/to/Makefile
+mk -f /path/to/Makefile
 ```
 
 > [!NOTE]
