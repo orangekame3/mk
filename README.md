@@ -16,7 +16,7 @@
 - **Filtering**: Quickly search for commands by typing part of the command name. check `?` for help.
 - **Remote Makefile**: Load a Makefile from a remote URL and execute commands.
 - **Any Local Makefile**: Load a Makefile from any directory and execute commands.
-- **Taskfile Support**: Load a Taskfile from a remote URL and execute tasks.
+- **Taskfile Support**: Load a Taskfile from a remote URL or local path and execute tasks.
 
 ## Installation
 
@@ -131,7 +131,7 @@ mk -f /path/to/Makefile
 
 ### Load Taskfile
 
-Prepare a Taskfile with predefined tasks and descriptions. Each task should be documented using a comment starting with `##` to provide a description of the task.
+Prepare a Taskfile with predefined tasks and descriptions.
 
 ```bash
 version: 3
