@@ -35,6 +35,7 @@ import (
 )
 
 var inputFile string
+var useTaskfile bool
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -44,29 +45,52 @@ var rootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		mode := "local"
 		tempFile := ""
-		if inputFile == "" {
-			inputFile = "Makefile"
-		} else if _, err := os.Stat(inputFile); os.IsNotExist(err) {
-			// Download the file from URL
-			tempFile = "mk_temp_makefile"
-			if err := downloadFile(inputFile, tempFile); err != nil {
-				log.Fatalf("Failed to download Makefile: %v", err)
-			}
-			inputFile = tempFile
-			mode = "remote"
-			defer func() {
-				if err := os.Remove(tempFile); err != nil {
-					log.Printf("Failed to remove temporary file: %v", err)
+		if useTaskfile {
+			if inputFile == "" {
+				inputFile = "Taskfile.yml"
+			} else if _, err := os.Stat(inputFile); os.IsNotExist(err) {
+				// Download the file from URL
+				tempFile = "mk_temp_taskfile"
+				if err := downloadFile(inputFile, tempFile); err != nil {
+					log.Fatalf("Failed to download Taskfile: %v", err)
 				}
-			}()
+				inputFile = tempFile
+				mode = "remote"
+				defer func() {
+					if err := os.Remove(tempFile); err != nil {
+						log.Printf("Failed to remove temporary file: %v", err)
+					}
+				}()
+			}
+		} else {
+			if inputFile == "" {
+				inputFile = "Makefile"
+			} else if _, err := os.Stat(inputFile); os.IsNotExist(err) {
+				// Download the file from URL
+				tempFile = "mk_temp_makefile"
+				if err := downloadFile(inputFile, tempFile); err != nil {
+					log.Fatalf("Failed to download Makefile: %v", err)
+				}
+				inputFile = tempFile
+				mode = "remote"
+				defer func() {
+					if err := os.Remove(tempFile); err != nil {
+						log.Printf("Failed to remove temporary file: %v", err)
+					}
+				}()
+			}
 		}
 
 		absPath, err := filepath.Abs(inputFile)
 		if err != nil {
 			log.Fatalf("Failed to get absolute path for %s: %v", inputFile, err)
 		}
-
-		commands, err := parseMakefile(absPath)
+		var commands []MakeCommand
+		if useTaskfile {
+			commands, err = parseTaskfile(absPath)
+		} else {
+			commands, err = parseMakefile(absPath)
+		}
 		if err != nil {
 			log.Fatalf("Failed to parse Makefile: %v", err)
 		}
@@ -78,9 +102,16 @@ var rootCmd = &cobra.Command{
 		}
 
 		if m, ok := m.(model); ok && m.selected != "" {
-			fmt.Printf("Running command: make -f %s %s in directory: %s\n", inputFile, m.selected, filepath.Dir(inputFile))
-			if err := runCommand(filepath.Dir(inputFile), "make", "-f", inputFile, m.selected); err != nil {
-				fmt.Fprintf(os.Stderr, "Failed to run command: %v\n", err)
+			if useTaskfile {
+				fmt.Printf("Running command: task -t %s %s in directory: %s\n", inputFile, m.selected, filepath.Dir(inputFile))
+				if err := runCommand(filepath.Dir(inputFile), "task","-t",inputFile, m.selected); err != nil {
+					fmt.Fprintf(os.Stderr, "Failed to run command: %v\n", err)
+				}
+			} else {
+				fmt.Printf("Running command: make -f %s %s in directory: %s\n", inputFile, m.selected, filepath.Dir(inputFile))
+				if err := runCommand(filepath.Dir(inputFile), "make", "-f", inputFile, m.selected); err != nil {
+					fmt.Fprintf(os.Stderr, "Failed to run command: %v\n", err)
+				}
 			}
 		}
 	},
@@ -96,7 +127,8 @@ func Execute() {
 
 // init initializes the root command.
 func init() {
-	rootCmd.Flags().StringVarP(&inputFile, "input", "i", "", "Specify an input file other than Makefile (URL is also supported)")
+	rootCmd.Flags().StringVarP(&inputFile, "file", "f", "", "Specify an input file other than Makefile (URL is also supported)")
+	rootCmd.Flags().BoolVarP(&useTaskfile, "taskfile", "t", false, "Use Taskfile instead of Makefile")
 }
 
 // downloadFile downloads a file from the given URL and saves it to the specified path.

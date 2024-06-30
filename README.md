@@ -1,6 +1,10 @@
-# mk - Interactive Task Runner for Makefile
+# mk - Interactive Task Runner for Makefile (Taskfile)
 
-**mk** is a command-line interface (CLI) tool designed to interactively execute `make` commands from a Makefile. It provides a user-friendly interface to select and run predefined make commands, making it easier to manage and execute build tasks.
+[![Go Report Card](https://goreportcard.com/badge/github.com/orangekame3/mk)](https://goreportcard.com/report/github.com/orangekame3/mk)
+[![GitHub release](https://img.shields.io/github/v/release/orangekame3/mk)](https://github.com/orangekame3/mk/releases)
+[![GitHub license](https://img.shields.io/github/license/orangekame3/mk)](https://github.com/orangekame3/mk/blob/main/LICENSE)
+
+**mk** is a command-line interface (CLI) tool designed to interactively execute make commands from a Makefile or tasks from a Taskfile. It provides a user-friendly interface to select and run predefined commands, making it easier to manage and execute build tasks.
 
 ![mk](./img/demo.gif)
 
@@ -12,6 +16,7 @@
 - **Filtering**: Quickly search for commands by typing part of the command name. check `?` for help.
 - **Remote Makefile**: Load a Makefile from a remote URL and execute commands.
 - **Any Local Makefile**: Load a Makefile from any directory and execute commands.
+- **Taskfile Support**: Load a Taskfile from a remote URL and execute tasks.
 
 ## Installation
 
@@ -96,17 +101,18 @@ Usage:
   mk [flags]
 
 Flags:
-  -h, --help           help for mk
-  -i, --input string   Specify an input file other than Makefile (URL is also supported)
-  -v, --version        version for mk
+  -f, --file string   Specify an input file other than Makefile (URL is also supported)
+  -h, --help          help for mk
+  -t, --taskfile      Use Taskfile instead of Makefile
+  -v, --version       version for mk
 ```
 
 ### Load Makefile from a Remote URL
 
-Use the `-i` or `--input` flag to load a Makefile from a remote URL. This allows you to execute commands from a Makefile hosted on a remote server.
+Use the `-f` or `--file` flag to load a Makefile from a remote URL. This allows you to execute commands from a Makefile hosted on a remote server.
 
 ```bash
-mk -i https://raw.githubusercontent.com/orangekame3/mk/main/Makefile
+mk -f https://raw.githubusercontent.com/orangekame3/mk/main/Makefile
 ```
 
 > [!NOTE]
@@ -114,7 +120,7 @@ mk -i https://raw.githubusercontent.com/orangekame3/mk/main/Makefile
 
 ### Load Makefile from a Local File
 
-Use the `-i` or `--input` flag to load a Makefile from a local file. This allows you to execute commands from a Makefile located in any directory.
+Use the `-f` or `--file` flag to load a Makefile from a local file. This allows you to execute commands from a Makefile located in any directory.
 
 ```bash
 mk -i /path/to/Makefile
@@ -123,8 +129,34 @@ mk -i /path/to/Makefile
 > [!NOTE]
 > command executed at path/to directory, and return to the original directory after the command is executed.
 
+### Load Taskfile
+
+Prepare a Taskfile with predefined tasks and descriptions. Each task should be documented using a comment starting with `##` to provide a description of the task.
+
+```bash
+version: 3
+tasks:
+  test:
+    cmds:
+      - go test ./...
+    description: Run tests
+  fmt:
+    cmds:
+      - go fmt ./...
+    description: Format source code
+```
+
+Use the `-t` or `--taskfile` flag to load a Taskfile instead of a Makefile. This allows you to execute tasks from a Taskfile.
+
+```bash
+mk -t
+```
+
+> [!NOTE]
+> It is usefule set alias in your `.bashrc` or `.zshrc` like `alias tk='mk -t'`.
+
 Contact
-For questions or feedback, please contact at @orangekame3.
+For questions or feedback, please contact at [**@orangekame3**](https://github.com/orangekame3)
 
 ## License
 

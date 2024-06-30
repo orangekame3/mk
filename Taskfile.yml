@@ -1,0 +1,24 @@
+version: '3'
+
+tasks:
+  lint:
+    desc: "Lint the code for Taskfile"
+    cmds:
+      - npx mega-linter-runner --flavor go
+
+  fmt:
+    desc: "Format the code for Taskfile"
+    cmds:
+      - go fmt ./...
+
+  test:
+    desc: "Run the tests for Taskfile"
+    cmds:
+      - go clean -testcache
+      - |
+        go test -v ./... && echo -e "\033[32mOK\033[0m" || echo -e "\033[31mERROR\033[0m"
+
+  hello:
+    desc: "Hello World for Taskfile"
+    cmds:
+      - echo "Hello World"

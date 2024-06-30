@@ -6,6 +6,7 @@ require (
 	github.com/charmbracelet/bubbles v0.18.0
 	github.com/charmbracelet/bubbletea v0.26.6
 	github.com/spf13/cobra v1.7.0
+	gopkg.in/yaml.v2 v2.4.0
 )
 
 require (
