@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.13](https://github.com/orangekame3/mk/compare/v0.0.12...v0.0.13) - 2024-06-30
+
+- chore: Update root command to support Taskfile and Makefile by @orangekame3 in <https://github.com/orangekame3/mk/pull/20>
+
 ## [v0.0.12](https://github.com/orangekame3/mk/compare/v0.0.11...v0.0.12) - 2024-06-29
 
 - update README by @orangekame3 in <https://github.com/orangekame3/mk/pull/18>
