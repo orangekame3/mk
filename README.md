@@ -156,7 +156,7 @@ mk -t
 > It is usefule set alias in your `.bashrc` or `.zshrc` like `alias tk='mk -t'`.
 
 Contact
-For questions or feedback, please contact at @orangekame3.
+For questions or feedback, please contact at [**@orangekame3**](https://github.com/orangekame3)
 
 ## License
 
