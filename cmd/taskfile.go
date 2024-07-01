@@ -45,13 +45,13 @@ type Taskfile struct {
 func parseTaskfile(filepath string) ([]MakeCommand, error) {
 	data, err := os.ReadFile(filepath)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read Taskfile: %v", err)
+		return nil, fmt.Errorf("failed to read Taskfile.yml: %v", err)
 	}
 
 	var taskfile Taskfile
 	err = yaml.Unmarshal(data, &taskfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse Taskfile: %v", err)
+		return nil, fmt.Errorf("failed to parse Taskfile.yml: %v", err)
 	}
 
 	var commands []MakeCommand

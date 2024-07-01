@@ -52,7 +52,7 @@ var rootCmd = &cobra.Command{
 				// Download the file from URL
 				tempFile = "mk_temp_taskfile"
 				if err := downloadFile(inputFile, tempFile); err != nil {
-					log.Fatalf("Failed to download Taskfile: %v", err)
+					log.Fatalf("Failed to download Taskfile.yml: %v", err)
 				}
 				inputFile = tempFile
 				mode = "remote"
@@ -128,7 +128,7 @@ func Execute() {
 // init initializes the root command.
 func init() {
 	rootCmd.Flags().StringVarP(&inputFile, "file", "f", "", "Specify an input file other than Makefile (URL is also supported)")
-	rootCmd.Flags().BoolVarP(&useTaskfile, "taskfile", "t", false, "Use Taskfile instead of Makefile")
+	rootCmd.Flags().BoolVarP(&useTaskfile, "taskfile", "t", false, "Use Taskfile.yml instead of Makefile")
 }
 
 // downloadFile downloads a file from the given URL and saves it to the specified path.
