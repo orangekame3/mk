@@ -4,7 +4,7 @@
 [![GitHub release](https://img.shields.io/github/v/release/orangekame3/mk)](https://github.com/orangekame3/mk/releases)
 [![GitHub license](https://img.shields.io/github/license/orangekame3/mk)](https://github.com/orangekame3/mk/blob/main/LICENSE)
 
-**mk** is a command-line interface (CLI) tool designed to interactively execute make commands from a Makefile or tasks from a Taskfile. It provides a user-friendly interface to select and run predefined commands, making it easier to manage and execute build tasks.
+**mk** is a command-line interface (CLI) tool designed to interactively execute make commands from a Makefile (GNU Make) or tasks from a Taskfile.yml [go-task](https://github.com/go-task/task). It provides a user-friendly interface to select and run predefined commands, making it easier to manage and execute build tasks.
 
 ![mk](./img/demo.gif)
 
@@ -16,7 +16,7 @@
 - **Filtering**: Quickly search for commands by typing part of the command name. check `?` for help.
 - **Remote Makefile**: Load a Makefile from a remote URL and execute commands.
 - **Any Local Makefile**: Load a Makefile from any directory and execute commands.
-- **Taskfile Support**: Load a Taskfile from a remote URL or local path and execute tasks.
+- **Taskfile.yml Support**: Load a Taskfile.yml from a remote URL or local path and execute tasks.
 
 ## Installation
 
@@ -103,7 +103,7 @@ Usage:
 Flags:
   -f, --file string   Specify an input file other than Makefile (URL is also supported)
   -h, --help          help for mk
-  -t, --taskfile      Use Taskfile instead of Makefile
+  -t, --taskfile      Use Taskfile.yml instead of Makefile
   -v, --version       version for mk
 ```
 
@@ -131,7 +131,7 @@ mk -f /path/to/Makefile
 
 ### Load Taskfile
 
-Prepare a Taskfile with predefined tasks and descriptions.
+Prepare a Taskfile.yml with predefined tasks and descriptions.
 
 ```bash
 version: 3
@@ -146,7 +146,7 @@ tasks:
     description: Format source code
 ```
 
-Use the `-t` or `--taskfile` flag to load a Taskfile instead of a Makefile. This allows you to execute tasks from a Taskfile.
+Use the `-t` or `--taskfile` flag to load a Taskfile.yml instead of a Makefile. This allows you to execute tasks from a Taskfile.yml.
 
 ```bash
 mk -t
