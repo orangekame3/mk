@@ -100,15 +100,15 @@ var rootCmd = &cobra.Command{
 		if err != nil {
 			log.Fatalf("Error: %v", err)
 		}
-
+		originalDir, _:= os.Getwd()
 		if m, ok := m.(model); ok && m.selected != "" {
 			if useTaskfile {
-				fmt.Printf("Running command: task -t %s %s in directory: %s\n", inputFile, m.selected, filepath.Dir(inputFile))
+				fmt.Printf("Running command: task -t %s %s in directory: %s\n", inputFile, m.selected, originalDir)
 				if err := runCommand(filepath.Dir(inputFile), "task","-t",inputFile, m.selected); err != nil {
 					fmt.Fprintf(os.Stderr, "Failed to run command: %v\n", err)
 				}
 			} else {
-				fmt.Printf("Running command: make -f %s %s in directory: %s\n", inputFile, m.selected, filepath.Dir(inputFile))
+				fmt.Printf("Running command: make -f %s %s in directory: %s\n", inputFile, m.selected, originalDir)
 				if err := runCommand(filepath.Dir(inputFile), "make", "-f", inputFile, m.selected); err != nil {
 					fmt.Fprintf(os.Stderr, "Failed to run command: %v\n", err)
 				}
