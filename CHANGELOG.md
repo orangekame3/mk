@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.0.15](https://github.com/orangekame3/mk/compare/v0.0.14...v0.0.15) - 2024-10-27
+- call form current dir by @orangekame3 in https://github.com/orangekame3/mk/pull/24
+
 ## [v0.0.14](https://github.com/orangekame3/mk/compare/v0.0.13...v0.0.14) - 2024-07-01
 
 - [Fix]: update README about Taskfile by @orangekame3 in <https://github.com/orangekame3/mk/pull/23>
