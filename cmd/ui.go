@@ -116,7 +116,7 @@ func runCommand(dir, name string, args ...string) error {
 	}()
 
 	// Change to the specified directory
-	if err := os.Chdir(dir); err != nil {
+	if err := os.Chdir(originalDir); err != nil {
 		return fmt.Errorf("failed to change directory to %s: %v", dir, err)
 	}
 	cmd := exec.Command(name, args...)
