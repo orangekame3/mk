@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.16](https://github.com/orangekame3/mk/compare/v0.0.15...v0.0.16) - 2024-10-28
+
+- adopot yaml by @orangekame3 in <https://github.com/orangekame3/mk/pull/26>
+
 ## [v0.0.15](https://github.com/orangekame3/mk/compare/v0.0.14...v0.0.15) - 2024-10-27
 
 - call form current dir by @orangekame3 in <https://github.com/orangekame3/mk/pull/24>
