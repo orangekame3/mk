@@ -47,7 +47,13 @@ var rootCmd = &cobra.Command{
 		tempFile := ""
 		if useTaskfile {
 			if inputFile == "" {
-				inputFile = "Taskfile.yml"
+				if _, err := os.Stat("Taskfile.yaml"); err == nil {
+					inputFile = "Taskfile.yaml"
+				} else if _, err := os.Stat("Taskfile.yml"); err == nil {
+					inputFile = "Taskfile.yml"
+				} else {
+					log.Fatalf("No Taskfile found")
+				}
 			} else if _, err := os.Stat(inputFile); os.IsNotExist(err) {
 				// Download the file from URL
 				tempFile = "mk_temp_taskfile"
